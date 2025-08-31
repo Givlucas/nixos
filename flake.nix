@@ -34,6 +34,8 @@
       tv = extendConfig base [
         ({ pkgs, ... }: {
           networking.hostName = "tv"; # Define your hostname.
+
+          networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
           
           # # Enable the X11 windowing system.
           services.xserver.enable = true;
