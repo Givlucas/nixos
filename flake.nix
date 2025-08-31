@@ -17,7 +17,7 @@
         # so the old configuration file still takes effect
         ./modules/configuration.nix
         ./modules/hardware-configuration.nix # required and overwritten by nixos-anywhere
-        ./modules/disk-config.nix
+        ./modules/base-disk-config.nix
         disko.nixosModules.disko
       ];
     };
