@@ -32,7 +32,7 @@
       base = mkConfig [] baseConfigs;
 
       tv = extendConfig base [
-        ({
+        ({ ... }: {
           networking.hostName = "working"; # Define your hostname.
           services = {
             desktopManager.plasma5.bigscreen.enable = true;
