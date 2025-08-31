@@ -49,7 +49,7 @@
               pkgs.tor-browser-bundle-bin
               pkgs.firefox
               pkgs.spotify
-              pkgs.netlfix
+              pkgs.netflix
             ];
           };
           
