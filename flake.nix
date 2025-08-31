@@ -32,13 +32,27 @@
       base = mkConfig [] baseConfigs;
 
       tv = extendConfig base [
-        ({ ... }: {
+        ({ pkgs, ... }: {
           networking.hostName = "working"; # Define your hostname.
           services = {
             xserver.desktopManager.plasma5.bigscreen.enable = true;
             xserver.displayManager.sddm.enable = true;
             xserver.displayManager.sddm.wayland.enable = true;
           };
+
+          users.users.tvuser = {
+            isNormalUser = true;
+            extraGroups = [ "dialout" "plugdev"]; # Enable ‘sudo’ for the user.
+            useDefaultShell = true;
+            packages = [
+              pkgs.deluge
+              pkgs.tor-browser-bundle-bin
+              pkgs.firefox
+              pkgs.spotify
+              pkgs.netlfix
+            ];
+          };
+          
         })
       ];
     };
