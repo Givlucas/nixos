@@ -34,6 +34,9 @@
       tv = extendConfig base [
         ({
           networking.hostName = "working"; # Define your hostname.
+          desktopManager.plasma5.bigscreen.enable = true;
+          displayManager.sddm.enable = true;
+          displayManager.sddm.wayland.enable = true;
         })
       ];
     };
