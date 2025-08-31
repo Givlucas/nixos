@@ -8,19 +8,27 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, disko, ... }: {
+  outputs = { nixpkgs, disko, ... }: rec {
 
-    # Please replace my-nixos with your hostname
     nixosConfigurations.base = args: nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = args.modules ++ [
         # Import the previous configuration.nix we used,
         # so the old configuration file still takes effect
         ./modules/configuration.nix
-        ./modules/hardware-configuration.nix
+        ./modules/hardware-configuration.nix # required and overwritten by nixos-anywhere
         ./modules/disk-config.nix
         disko.nixosModules.disko
       ];
     };
+
+    nixosConfigurations.tv = nixosConfigurations.base {
+      modules = [
+        ({
+          networking.hostName = "tv";
+        })
+      ];
+    };
+
   };
 }
