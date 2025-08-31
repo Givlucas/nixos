@@ -8,24 +8,32 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, disko, ... }: rec {
+  outputs = { nixpkgs, disko, ... }:
+  let
+    baseConfigs = [
+      ./modules/configuration.nix
+      ./modules/hardware-configuration.nix # required and overwritten by nixos-anywhere
+      ./modules/base-disk-config.nix
+      disko.nixosModules.disko
+    ];
 
-    nixosConfigurations.base = args: nixpkgs.lib.nixosSystem {
+    mkConfig = baseModules: extraModules: nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = args.modules ++ [
-        # Import the previous configuration.nix we used,
-        # so the old configuration file still takes effect
-        ./modules/configuration.nix
-        ./modules/hardware-configuration.nix # required and overwritten by nixos-anywhere
-        ./modules/base-disk-config.nix
-        disko.nixosModules.disko
-      ];
+      modules = baseModules ++ extraModules;
     };
+    
+    # Function that extends an existing configuration
+    extendConfig = baseConfig: extraModules: mkConfig 
+      baseConfig._module.args.modules 
+      extraModules;
+  in
+  {
+    nixosConfigurations = rec {
+      base = mkConfig [] baseConfigs;
 
-    nixosConfigurations.tv = nixosConfigurations.base {
-      modules = [
+      tv = extendConfig base [
         ({
-          networking.hostName = "tv";
+          networking.hostName = "working"; # Define your hostname.
         })
       ];
     };
