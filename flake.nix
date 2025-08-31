@@ -33,12 +33,17 @@
 
       tv = extendConfig base [
         ({ pkgs, ... }: {
-          networking.hostName = "working"; # Define your hostname.
-          services = {
-            xserver.desktopManager.plasma5.bigscreen.enable = true;
-            xserver.displayManager.sddm.enable = true;
-            xserver.displayManager.sddm.wayland.enable = true;
-          };
+          networking.hostName = "tv"; # Define your hostname.
+          
+          # # Enable the X11 windowing system.
+          services.xserver.enable = true;
+          services.xserver.displayManager.gdm.enable = true;
+          services.xserver.desktopManager.gnome.enable = true;
+          services.xserver.desktopManager.gnome.extraGSettingsOverridePackages = [ pkgs.mutter ];
+          services.xserver.desktopManager.gnome.extraGSettingsOverrides = "
+            [org.gnome.mutter]
+            edge-tiling = true
+          ";
 
           users.users.tvuser = {
             isNormalUser = true;
@@ -49,7 +54,6 @@
               pkgs.tor-browser-bundle-bin
               pkgs.firefox
               pkgs.spotify
-              pkgs.netflix
             ];
           };
           
