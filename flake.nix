@@ -11,27 +11,15 @@
   outputs = { nixpkgs, disko, ... }: {
 
     # Please replace my-nixos with your hostname
-    nixosConfigurations.test = args: nixpkgs.lib.nixosSystem {
+    nixosConfigurations.base = args: nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = args.modules ++ [
         # Import the previous configuration.nix we used,
         # so the old configuration file still takes effect
-        ./configuration.nix
-        ./hardware-configuration.nix
+        ./modules/configuration.nix
+        ./modules/hardware-configuration.nix
+        ./modules/disk-config.nix
         disko.nixosModules.disko
-        ./disk-config.nix
-      ];
-    };
-
-    nixosConfigurations.base = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        # Import the previous configuration.nix we used,
-        # so the old configuration file still takes effect
-        ./configuration.nix
-        ./hardware-configuration.nix
-        disko.nixosModules.disko
-        ./disk-config.nix
       ];
     };
   };
