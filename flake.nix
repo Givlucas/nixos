@@ -35,9 +35,9 @@
         ({ ... }: {
           networking.hostName = "working"; # Define your hostname.
           services = {
-            desktopManager.plasma5.bigscreen.enable = true;
-            displayManager.sddm.enable = true;
-            displayManager.sddm.wayland.enable = true;
+            xserver.desktopManager.plasma5.bigscreen.enable = true;
+            xserver.displayManager.sddm.enable = true;
+            xserver.displayManager.sddm.wayland.enable = true;
           };
         })
       ];
