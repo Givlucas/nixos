@@ -8,7 +8,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, disko, ... }:
+  outputs = { nixpkgs, disko, self, ... }:
   let
     baseConfigs = [
       ./modules/configuration.nix
@@ -28,7 +28,27 @@
       extraModules;
   in
   {
+    # Builds a live image based on the custom configruation in this flake
+    packages.x86_64-linux.live = self.nixosConfigurations.live.config.system.build.isoImage;
+
     nixosConfigurations = rec {
+      live = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          (nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
+          ({ pkgs, config, ...}: {
+            boot.initrd.kernelModules = ["wl"];
+            boot.extraModulePackages = [config.boot.kernelPackages.broadcom_sta];
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.config.permittedInsecurePackages = [
+              "broadcom-sta-6.30.223.271-57-6.12.44"
+            ];
+            networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+          })
+        ];
+      };
+
+    
       base = mkConfig [] baseConfigs;
 
       tv = extendConfig base [
@@ -36,17 +56,9 @@
           networking.hostName = "tv"; # Define your hostname.
 
           networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-          
-          # # Enable the X11 windowing system.
-          services.xserver.enable = true;
-          services.xserver.displayManager.gdm.enable = true;
-          services.xserver.desktopManager.gnome.enable = true;
-          services.xserver.desktopManager.gnome.extraGSettingsOverridePackages = [ pkgs.mutter ];
-          services.xserver.desktopManager.gnome.extraGSettingsOverrides = "
-            [org.gnome.mutter]
-            edge-tiling = true
-          ";
 
+          base-disk.device = "/dev/sda";
+          
           users.users.tvuser = {
             isNormalUser = true;
             extraGroups = [ "dialout" "plugdev"]; # Enable ‘sudo’ for the user.
