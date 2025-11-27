@@ -55,7 +55,11 @@
           networking.hostName = "steam-machine"; # Define your hostname.
 
           base-disk.device = "/dev/sda";
+
           jovian.steam.enable = true;
+					jovian.steam.autoStart = true;
+
+					programs.steam.enable = true;
           
           users.users.gamer = {
             isNormalUser = true;
