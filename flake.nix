@@ -36,13 +36,8 @@
         system = "x86_64-linux";
         modules = [
           (nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
-          ({ pkgs, config, ...}: {
-            boot.initrd.kernelModules = ["wl"];
-            boot.extraModulePackages = [config.boot.kernelPackages.broadcom_sta];
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.config.permittedInsecurePackages = [
-              "broadcom-sta-6.30.223.271-57-6.12.44"
-            ];
+          ./modules/broadcom.nix
+          ({...}: {
             networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
           })
         ];
@@ -51,15 +46,14 @@
     
       base = mkConfig [] baseConfigs;
 
-      tv = extendConfig base [
+      steam-machine = extendConfig base [
+        ./modules/broadcom.nix
         ({ pkgs, ... }: {
-          networking.hostName = "tv"; # Define your hostname.
-
-          networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+          networking.hostName = "steam-machine"; # Define your hostname.
 
           base-disk.device = "/dev/sda";
           
-          users.users.tvuser = {
+          users.users.gamer = {
             isNormalUser = true;
             extraGroups = [ "dialout" "plugdev"]; # Enable ‘sudo’ for the user.
             useDefaultShell = true;
