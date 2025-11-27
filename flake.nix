@@ -6,9 +6,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
+    jovian.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, disko, self, ... }:
+  outputs = { nixpkgs, disko, self, jovian, ... }:
   let
     baseConfigs = [
       ./modules/configuration.nix
@@ -48,10 +50,12 @@
 
       steam-machine = extendConfig base [
         ./modules/broadcom.nix
+        jovian.nixosModules.default
         ({ pkgs, ... }: {
           networking.hostName = "steam-machine"; # Define your hostname.
 
           base-disk.device = "/dev/sda";
+          jovian.steam.enable = true;
           
           users.users.gamer = {
             isNormalUser = true;
