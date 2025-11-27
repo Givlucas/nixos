@@ -43,7 +43,7 @@
             nixpkgs.config.permittedInsecurePackages = [
               "broadcom-sta-6.30.223.271-57-6.12.44"
             ];
-
+            networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
           })
         ];
       };
