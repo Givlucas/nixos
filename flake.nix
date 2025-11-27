@@ -39,8 +39,11 @@
         modules = [
           (nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
           ./modules/broadcom.nix
-          ({...}: {
+          ({pkgs, ...}: {
             networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+            environment.systemPackages = with pkgs; [
+              nmcli
+            ];
           })
         ];
       };
