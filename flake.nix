@@ -5,11 +5,9 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
-    jovian.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, disko, self, jovian, ... }:
+  outputs = { nixpkgs, disko, self, ... }:
   let
     baseConfigs = [
       ./modules/configuration.nix
@@ -56,7 +54,6 @@
 
       steam-machine = extendConfig base [
         ./modules/broadcom.nix
-        jovian.nixosModules.default
         ({ pkgs, lib, ... }: {
           networking.hostName = "steam-machine"; # Define your hostname.
 
@@ -77,6 +74,7 @@
           # Generic steam deck-specific configs that are reasonable for other people to refer to / use
           # Enable Steam
           programs.steam.enable = true;
+          programs.gamescope.enable = true;
 
           # Autologin to your user
           services.displayManager.autoLogin = {
@@ -91,9 +89,9 @@
             displayManager.session = [
               {
                 manage = "desktop";
-                name = "steam-big-picture";
+                name = "steam-gamescope";
                 start = ''
-                  ${pkgs.steam}/bin/steam -bigpicture &
+                  ${pkgs.gamescope}/bin/gamescope -W 1920 -H 1080 -f -- steam -bigpicture &
                   waitPID=$!
                 '';
               }
@@ -101,6 +99,7 @@
   
             displayManager.defaultSession = "steam-big-picture";
           };
+
         
         })
       ];
