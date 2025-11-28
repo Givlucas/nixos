@@ -84,10 +84,6 @@
             user = "gamer";
           };
 
-          hardware.graphics.extraPackages = with pkgs; [
-            amdvlk
-          ];
-
           services.xserver = {
             enable = true;
             displayManager.lightdm.enable = true;
