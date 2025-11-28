@@ -74,6 +74,7 @@
           # Generic steam deck-specific configs that are reasonable for other people to refer to / use
           # Enable Steam
           programs.steam.enable = true;
+          programs.steam.gamescopeSession.enable = false;
           programs.gamescope.enable = true;
 
           # Autologin to your user
@@ -89,26 +90,26 @@
             displayManager.session = [
               {
                 manage = "desktop";
-                name = "steam-gamescope";
+                name = "steam-big-picture";
                 start = ''
-                  export WLR_NO_HARDWARE_CURSORS=1
+                  # Performance environment variables
                   export MESA_GL_VERSION_OVERRIDE=4.5
+                  export RADV_PERFTEST=gpl,rt
+                  export mesa_glthread=true
                   export AMD_VULKAN_ICD=RADV
-      
-                  ${pkgs.gamescope}/bin/gamescope \
-                    -W 1920 -H 1080 \
-                    -f \
-                    --backend sdl \
-                    --force-windows-fullscreen \
-                    -- steam -bigpicture &
+                  export DXVK_ASYNC=1
+          
+                  # Disable compositing overhead
+                  export STEAM_DISABLE_COMPOSITING=1
+          
+                  ${pkgs.steam}/bin/steam -bigpicture &
                   waitPID=$!
                 '';
               }
             ];
   
-            displayManager.defaultSession = "steam-gamescope";
+            displayManager.defaultSession = "steam-big-picture";
           };
-
         
         })
       ];
