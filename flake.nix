@@ -91,7 +91,7 @@
                 manage = "desktop";
                 name = "steam-gamescope";
                 start = ''
-                  ${pkgs.gamescope}/bin/gamescope -W 1920 -H 1080 -f -- steam -bigpicture &
+                  ${pkgs.gamescope}/bin/gamescope --backend x11 -W 1920 -H 1080 -f -- steam -bigpicture &
                   waitPID=$!
                 '';
               }
