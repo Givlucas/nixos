@@ -79,7 +79,7 @@
             enable = true;
 
             # Boot straight into gamescope
-            autoStart = true;
+            # autoStart = true;
             
             user = "gamer"; # it's me!
           };
@@ -90,6 +90,21 @@
             # Runs steam with https://github.com/Supreeeme/extest
             # Without this, steam input on wayland sessions doesn't draw a visible cursor.
             extest.enable = true;
+          };
+
+          boot.kernelParams = [ "radeon.si_support=0" "radeon.cik_support=0" "amdgpu.si_support=1" "amdgpu.cik_support=1" ];
+          # Force the radeon driver (should be automatic, but worth being explicit)
+          boot.initrd.kernelModules = [ "radeon" ];
+
+          # Disable AMDGPU-specific features in Jovian
+          jovian.hardware.has.amd.gpu = false;
+
+          # You may also need to disable Steam Deck-specific configs
+          jovian.steamos.useSteamOSConfig = false;
+
+          hardware.graphics = {
+            enable = true;
+            enable32Bit = true;
           };
           
         })
