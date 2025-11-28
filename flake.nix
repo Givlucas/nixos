@@ -2,8 +2,7 @@
   description = "A simple NixOS flake";
 
   inputs = {
-    # NixOS official package source, using the nixos-24.11 branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
@@ -58,15 +57,10 @@
       steam-machine = extendConfig base [
         ./modules/broadcom.nix
         jovian.nixosModules.default
-        ({ pkgs, ... }: {
+        ({ pkgs, lib, ... }: {
           networking.hostName = "steam-machine"; # Define your hostname.
 
           base-disk.device = "/dev/sda";
-
-          jovian.steam.enable = true;
-					jovian.steam.autoStart = true;
-
-					programs.steam.enable = true;
           
           users.users.gamer = {
             isNormalUser = true;
@@ -74,10 +68,28 @@
             useDefaultShell = true;
             packages = [
               pkgs.deluge
-              pkgs.tor-browser-bundle-bin
+              pkgs.tor-browser
               pkgs.firefox
               pkgs.spotify
             ];
+          };
+
+          # Generic steam deck-specific configs that are reasonable for other people to refer to / use
+          jovian.steam = {
+            enable = true;
+
+            # Boot straight into gamescope
+            autoStart = true;
+            
+            user = "gamer"; # it's me!
+          };
+
+          # Need to have this or we won't have steam available on the desktop (which is *very* funny)
+          programs.steam = {
+            enable = true;
+            # Runs steam with https://github.com/Supreeeme/extest
+            # Without this, steam input on wayland sessions doesn't draw a visible cursor.
+            extest.enable = true;
           };
           
         })
