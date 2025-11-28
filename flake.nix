@@ -81,32 +81,31 @@
           # Autologin to your user
           services.displayManager.autoLogin = {
             enable = true;
-            user = "yourusername";
+            user = "gamer";
           };
 
-          # Use a simple desktop that can launch Steam
+          hardware.graphics.extraPackages = with pkgs; [
+            amdvlk
+          ];
+
           services.xserver = {
             enable = true;
             displayManager.lightdm.enable = true;
-            desktopManager.xfce.enable = true;  # or another lightweight DE
+  
+            displayManager.session = [
+              {
+                manage = "desktop";
+                name = "steam-big-picture";
+                start = ''
+                  ${pkgs.steam}/bin/steam -bigpicture &
+                  waitPID=$!
+                '';
+              }
+            ];
+  
+            displayManager.defaultSession = "steam-big-picture";
           };
-
-          # Auto-start Steam in Big Picture
-          environment.etc."xdg/autostart/steam-bigpicture.desktop".text = ''
-            [Desktop Entry]
-            Name=Steam Big Picture
-            Exec=steam -bigpicture
-            Type=Application
-            X-GNOME-Autostart-enabled=true
-          '';
         
-          boot.kernelParams = [ "radeon.si_support=0" "radeon.cik_support=0" "amdgpu.si_support=1" "amdgpu.cik_support=1" ];
-
-          hardware.graphics = {
-            enable = true;
-            enable32Bit = true;
-          };
-          
         })
       ];
     };
