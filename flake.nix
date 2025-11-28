@@ -98,7 +98,7 @@
                   ${pkgs.gamescope}/bin/gamescope \
                     -W 1920 -H 1080 \
                     -f \
-                    --backend x11 \
+                    --backend sdl \
                     --force-windows-fullscreen \
                     -- steam -bigpicture &
                   waitPID=$!
