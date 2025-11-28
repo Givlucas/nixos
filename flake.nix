@@ -97,7 +97,7 @@
               }
             ];
   
-            displayManager.defaultSession = "steam-big-picture";
+            displayManager.defaultSession = "steam-gamescope";
           };
 
         
