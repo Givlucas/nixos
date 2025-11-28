@@ -93,15 +93,7 @@
                 name = "steam-big-picture";
                 start = ''
                   # Performance environment variables
-                  export MESA_GL_VERSION_OVERRIDE=4.5
-                  export RADV_PERFTEST=gpl,rt
-                  export mesa_glthread=true
-                  export AMD_VULKAN_ICD=RADV
-                  export DXVK_ASYNC=1
-          
-                  # Disable compositing overhead
-                  export STEAM_DISABLE_COMPOSITING=1
-          
+                  ${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-1 --mode 1920x1080 --rate 60          
                   ${pkgs.steam}/bin/steam -bigpicture &
                   waitPID=$!
                 '';
