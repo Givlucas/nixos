@@ -91,7 +91,16 @@
                 manage = "desktop";
                 name = "steam-gamescope";
                 start = ''
-                  ${pkgs.gamescope}/bin/gamescope --backend x11 -W 1920 -H 1080 -f -- steam -bigpicture &
+                  export WLR_NO_HARDWARE_CURSORS=1
+                  export MESA_GL_VERSION_OVERRIDE=4.5
+                  export AMD_VULKAN_ICD=RADV
+      
+                  ${pkgs.gamescope}/bin/gamescope \
+                    -W 1920 -H 1080 \
+                    -f \
+                    --backend x11 \
+                    --force-windows-fullscreen \
+                    -- steam -bigpicture &
                   waitPID=$!
                 '';
               }
