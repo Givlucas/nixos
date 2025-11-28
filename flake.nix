@@ -92,9 +92,16 @@
                 manage = "desktop";
                 name = "steam-big-picture";
                 start = ''
-                  # Performance environment variables
-                  ${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-1 --mode 1920x1080 --rate 60          
-                  ${pkgs.steam}/bin/steam -bigpicture &
+                  # Set resolution first
+                  ${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-A-1 --mode 1920x1080 --rate 60
+                  sleep 2
+
+                  # Force Steam scaling
+                  export STEAM_FORCE_DESKTOPUI_SCALING=1
+                  export GDK_SCALE=1
+                  export QT_AUTO_SCREEN_SCALE_FACTOR=0
+
+                  ${pkgs.steam}/bin/steam -bigpicture -fullscreen -steamos &
                   waitPID=$!
                 '';
               }
