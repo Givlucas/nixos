@@ -75,32 +75,32 @@
           };
 
           # Generic steam deck-specific configs that are reasonable for other people to refer to / use
-          jovian.steam = {
-            enable = true;
+          # Enable Steam
+          programs.steam.enable = true;
 
-            # Boot straight into gamescope
-            # autoStart = true;
-            
-            user = "gamer"; # it's me!
+          # Autologin to your user
+          services.displayManager.autoLogin = {
+            enable = true;
+            user = "yourusername";
           };
 
-          # Need to have this or we won't have steam available on the desktop (which is *very* funny)
-          programs.steam = {
+          # Use a simple desktop that can launch Steam
+          services.xserver = {
             enable = true;
-            # Runs steam with https://github.com/Supreeeme/extest
-            # Without this, steam input on wayland sessions doesn't draw a visible cursor.
-            extest.enable = true;
+            displayManager.lightdm.enable = true;
+            desktopManager.xfce.enable = true;  # or another lightweight DE
           };
 
+          # Auto-start Steam in Big Picture
+          environment.etc."xdg/autostart/steam-bigpicture.desktop".text = ''
+            [Desktop Entry]
+            Name=Steam Big Picture
+            Exec=steam -bigpicture
+            Type=Application
+            X-GNOME-Autostart-enabled=true
+          '';
+        
           boot.kernelParams = [ "radeon.si_support=0" "radeon.cik_support=0" "amdgpu.si_support=1" "amdgpu.cik_support=1" ];
-          # Force the radeon driver (should be automatic, but worth being explicit)
-          boot.initrd.kernelModules = [ "radeon" ];
-
-          # Disable AMDGPU-specific features in Jovian
-          jovian.hardware.has.amd.gpu = false;
-
-          # You may also need to disable Steam Deck-specific configs
-          jovian.steamos.useSteamOSConfig = false;
 
           hardware.graphics = {
             enable = true;
