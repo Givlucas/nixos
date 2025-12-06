@@ -31,6 +31,7 @@
     packages.x86_64-linux.live = self.nixosConfigurations.live.config.system.build.isoImage;
 
     nixosConfigurations = rec {
+
       live = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
