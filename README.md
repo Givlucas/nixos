@@ -39,6 +39,36 @@ This approach means adding a new machine with similar needs only requires defini
 
 Simple hosts (base, tv) use nixpkgs 25.05 stable. Desktop hosts (gaming-pc, zephyrus) use nixpkgs unstable for access to newer packages. The flake provides separate helper functions for each track.
 
+## Installation
+
+To install a host like `zephyrus` from scratch:
+
+1. Build the live ISO (requires Nix with flakes enabled):
+   ```bash
+   nix build github:Givlucas/nixos#live
+   ```
+
+2. Write to USB:
+   ```bash
+   sudo dd if=result/iso/*.iso of=/dev/sdX bs=4M status=progress
+   ```
+
+3. Boot from USB on target machine and connect to network.
+
+4. Partition the disk with disko (this will wipe the target drive):
+   ```bash
+   sudo nix run github:nix-community/disko -- --mode disko --flake github:Givlucas/nixos#zephyrus
+   ```
+
+5. Install NixOS:
+   ```bash
+   sudo nixos-install --flake github:Givlucas/nixos#zephyrus --no-root-passwd
+   ```
+
+6. Reboot and set user passwords with `passwd`.
+
+**Note:** Verify `storage.device` in `hosts/zephyrus/default.nix` matches your actual drive before running disko.
+
 ## Impermanence
 
 The zephyrus configuration wipes root on every boot, keeping only explicitly persisted paths in `/persist`. This includes SSH keys, logs, Docker/libvirt state, and user home directories. The btrfs `@root` subvolume gets replaced with a fresh snapshot at boot while `@persist` and `@nix` remain untouched.
