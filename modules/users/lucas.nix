@@ -168,9 +168,6 @@ in
         directories = [
           "Documents"
           "Downloads"
-          "Pictures"
-          "Music"
-          "Videos"
           ".core"
           ".config"
           ".local"
