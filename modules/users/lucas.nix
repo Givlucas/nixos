@@ -113,6 +113,9 @@ in
       programs.firefox = {
         enable = true;
         profiles.lucas = {
+          extensions.packages = with inputs.nur.legacyPackages.${pkgs.system}.repos.rycee.firefox-addons; [
+            raindropio
+          ];
           settings = {
             # Enable vertical tabs
             "sidebar.verticalTabs" = true;

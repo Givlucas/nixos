@@ -16,9 +16,11 @@
     };
 
     impermanence.url = "github:nix-community/impermanence";
+
+    nur.url = "github:nix-community/NUR";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, disko, home-manager, impermanence, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, disko, home-manager, impermanence, nur, ... }@inputs:
   let
     system = "x86_64-linux";
 
