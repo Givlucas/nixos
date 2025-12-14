@@ -32,6 +32,9 @@ in
       useUserPackages = true;
       backupFileExtension = "backup";
       extraSpecialArgs = { inherit inputs; };
+      sharedModules = [
+        inputs.impermanence.nixosModules.home-manager.impermanence
+      ];
     };
   };
 }
