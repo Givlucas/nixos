@@ -1,5 +1,5 @@
 # Lucas user configuration
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let
   cfg = config.userProfiles.lucas;
