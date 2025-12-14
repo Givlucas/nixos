@@ -33,9 +33,9 @@ in
       '';
 
       # Symlink media directories from .config to home
-      home.file.".config/Pictures".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Pictures";
-      home.file.".config/Videos".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Videos";
-      home.file.".config/Music".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Music";
+      home.file.".core/Pictures".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Pictures";
+      home.file.".core/Videos".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Videos";
+      home.file.".core/Music".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Music";
 
       home.packages = with pkgs; [
         # Development
