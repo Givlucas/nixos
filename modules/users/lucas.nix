@@ -6,7 +6,6 @@ let
   userCfg = config.userProfiles;
 in
 {
-  imports = [ inputs.impermanence.homeManagerModules.impermanence ];
 
   options.userProfiles.lucas = {
     enable = lib.mkEnableOption "lucas user account";
@@ -22,6 +21,8 @@ in
 
     # Home-manager configuration
     home-manager.users.lucas = lib.mkIf userCfg.enableHomeManager ({ config, pkgs, ... }: {
+      imports = [ inputs.impermanence.homeManagerModules.impermanence ];
+
       home.username = "lucas";
       home.homeDirectory = "/home/lucas";
 
