@@ -52,6 +52,8 @@ in
       ];
     };
 
+    fileSystems."/persist".neededForBoot = true;
+
     # Ensure persist directory exists and has correct permissions
     systemd.tmpfiles.rules = [
       "d ${cfg.persistDir} 0755 root root -"
