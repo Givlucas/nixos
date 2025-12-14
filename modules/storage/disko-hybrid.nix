@@ -61,6 +61,7 @@ in
                   mountOptions = [ "compress=zstd" "noatime" ];
                 };
                 "@persist" = {
+                  neededForBoot
                   mountpoint = "/persist";
                   mountOptions = [ "compress=zstd" "noatime" ];
                 };
