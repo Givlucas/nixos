@@ -17,7 +17,7 @@ in
 
     btrfsSize = lib.mkOption {
       type = lib.types.str;
-      default = "50%";
+      default = "465G";
       description = "Size of btrfs partition";
     };
 
