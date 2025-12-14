@@ -137,7 +137,8 @@ in
           "org/gnome/shell/extensions/dash-to-dock" = {
             dock-position = "BOTTOM";
             dock-fixed = false;
-            intellihide = true;
+            autohide = true;
+            intellihide = false;
             dash-max-icon-size = 48;
             show-trash = false;
             show-mounts = false;
@@ -154,12 +155,18 @@ in
 
           "org/gnome/shell/extensions/blur-my-shell/panel" = {
             blur = true;
+            customize = true;
             sigma = 30;
+            brightness = 0.6;
+            override-background = true;
+            force-light-text = true;
           };
 
           "org/gnome/shell/extensions/blur-my-shell/dash-to-dock" = {
             blur = true;
+            customize = true;
             static-blur = true;
+            override-background = true;
           };
         };
       };
