@@ -34,7 +34,6 @@ in
     # Persist essential system state
     environment.persistence.${cfg.persistDir} = {
       hideMounts = true;
-      neededForBoot = true; 
       directories = [
         "/etc/nixos"
         "/var/log"
