@@ -24,13 +24,13 @@ in
   config = lib.mkIf cfg.enable {
     # X11 and GNOME
     services.xserver.enable = true;
-    services.xserver.displayManager.gdm.enable = true;
-    services.xserver.desktopManager.gnome.enable = true;
+    services.displayManager.gdm.enable = true;
+    services.desktopManager.gnome.enable = true;
 
     # Edge tiling via mutter GSettings
-    services.xserver.desktopManager.gnome.extraGSettingsOverridePackages =
+    services.desktopManager.gnome.extraGSettingsOverridePackages =
       lib.mkIf cfg.edgeTiling [ pkgs.mutter ];
-    services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
+    services.desktopManager.gnome.extraGSettingsOverrides = ''
       ${lib.optionalString cfg.edgeTiling ''
         [org.gnome.mutter]
         edge-tiling = true
@@ -45,7 +45,7 @@ in
     environment.systemPackages = [ ];
 
     # Disable PulseAudio (use PipeWire via GNOME)
-    hardware.pulseaudio.enable = false;
+    services.pulseaudio.enable = false;
 
     # Enable automatic timezone detection
     services.automatic-timezoned.enable = cfg.automaticTimezone;

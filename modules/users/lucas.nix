@@ -113,7 +113,7 @@ in
       programs.firefox = {
         enable = true;
         profiles.lucas = {
-          extensions.packages = with inputs.nur.legacyPackages.${pkgs.system}.repos.rycee.firefox-addons; [
+          extensions.packages = with inputs.nur.legacyPackages.${pkgs.stdenv.hostPlatform.system}.repos.rycee.firefox-addons; [
             raindropio
           ];
           settings = {
@@ -143,7 +143,7 @@ in
                 urls = [{
                   template = "https://kagi.com/search?q={searchTerms}";
                 }];
-                iconUpdateURL = "https://kagi.com/favicon.ico";
+                icon = "https://kagi.com/favicon.ico";
                 updateInterval = 24 * 60 * 60 * 1000;
                 definedAliases = [ "@k" ];
               };
