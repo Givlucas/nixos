@@ -167,7 +167,6 @@ in
               tiling-shell.extensionUuid
               dash-to-dock.extensionUuid
               blur-my-shell.extensionUuid
-              hide-top-bar.extensionUuid
               rounded-window-corners-reborn.extensionUuid
               just-perfection.extensionUuid
               light-style.extensionUuid
