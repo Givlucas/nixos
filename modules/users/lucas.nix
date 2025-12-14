@@ -6,6 +6,8 @@ let
   userCfg = config.userProfiles;
 in
 {
+  imports = [ inputs.impermanence.homeManagerModules.impermanence ];
+
   options.userProfiles.lucas = {
     enable = lib.mkEnableOption "lucas user account";
   };
