@@ -160,23 +160,26 @@ in
       };
 
       # Impermanence for home directory
-      home.persistence = lib.mkIf userCfg.persistHome {
-        "${userCfg.persistDir}/home/lucas" = {
-          directories = [
-            "Documents"
-            "Downloads"
-            "Pictures"
-            "Music"
-            "Videos"
-            "Projects"
-            ".config"
-            ".local"
-            ".ssh"
-            ".gnupg"
-          ];
-          allowOther = true;
-        };
-      };
+      # NOTE: Disabled home-manager level persistence to avoid conflict with system-level
+      # persistence (environment.persistence below). System-level persistence already
+      # handles all these directories.
+      # home.persistence = lib.mkIf userCfg.persistHome {
+      #   "${userCfg.persistDir}/home/lucas" = {
+      #     directories = [
+      #       "Documents"
+      #       "Downloads"
+      #       "Pictures"
+      #       "Music"
+      #       "Videos"
+      #       "Projects"
+      #       ".config"
+      #       ".local"
+      #       ".ssh"
+      #       ".gnupg"
+      #     ];
+      #     allowOther = true;
+      #   };
+      # };
 
       home.stateVersion = "25.05";
     });
