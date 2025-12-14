@@ -63,6 +63,7 @@ in
                 "@persist" = {
                   mountpoint = "/persist";
                   mountOptions = [ "compress=zstd" "noatime" ];
+                  neededForBoot = true;
                 };
                 "@snapshots" = {
                   mountpoint = "/.snapshots";
