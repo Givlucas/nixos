@@ -32,10 +32,10 @@ in
         }
       '';
 
-      # Symlink media directories from .config to home
-      home.file.".core/Pictures".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Pictures";
-      home.file.".core/Videos".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Videos";
-      home.file.".core/Music".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Music";
+      # Symlink media directories from .core to home
+      home.file."Pictures".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.core/Pictures";
+      home.file."Videos".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.core/Videos";
+      home.file."Music".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.core/Music";
 
       home.packages = with pkgs; [
         # Development
