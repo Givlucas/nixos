@@ -50,25 +50,6 @@ in
         gamescope
       ];
 
-      # Impermanence for home directory
-      # NOTE: Disabled home-manager level persistence to avoid conflict with system-level
-      # persistence (environment.persistence below). System-level persistence already
-      # handles all these directories.
-      # home.persistence = lib.mkIf userCfg.persistHome {
-      #   "${userCfg.persistDir}/home/isa" = {
-      #     directories = [
-      #       "Documents"
-      #       "Downloads"
-      #       "Pictures"
-      #       "Music"
-      #       "Videos"
-      #       ".config"
-      #       ".local"
-      #     ];
-      #     allowOther = true;
-      #   };
-      # };
-
       home.stateVersion = "25.05";
     });
 
