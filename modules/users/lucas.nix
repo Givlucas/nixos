@@ -32,6 +32,11 @@ in
         }
       '';
 
+      # Symlink media directories from .config to home
+      home.file."Pictures".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/Pictures";
+      home.file."Videos".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/Videos";
+      home.file."Music".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/Music";
+
       home.packages = with pkgs; [
         # Development
         claude-code
