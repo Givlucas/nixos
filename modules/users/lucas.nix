@@ -64,7 +64,6 @@ in
 
         # Communication & Web
         google-chrome
-        firefox
         discord
         tor-browser
         deluge
@@ -107,6 +106,23 @@ in
             rulers = [ 80 120 ];
             bufferline = "multiple";
             soft-wrap.enable = true;
+          };
+        };
+      };
+
+      programs.firefox = {
+        enable = true;
+        profiles.lucas = {
+          settings = {
+            # Enable vertical tabs
+            "sidebar.verticalTabs" = true;
+            "sidebar.revamp" = true;
+
+            # Hide horizontal tab bar
+            "browser.tabs.tabmanager.enabled" = true;
+
+            # Additional settings for better vertical tabs experience
+            "browser.tabs.firefox-view" = false;
           };
         };
       };
