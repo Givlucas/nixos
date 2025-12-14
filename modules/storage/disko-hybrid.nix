@@ -29,6 +29,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+
+    
+
+
     disko.devices.disk.main = {
       device = cfg.device;
       type = "disk";
@@ -63,7 +67,6 @@ in
                 "@persist" = {
                   mountpoint = "/persist";
                   mountOptions = [ "compress=zstd" "noatime" ];
-                  neededForBoot = true;
                 };
                 "@snapshots" = {
                   mountpoint = "/.snapshots";
