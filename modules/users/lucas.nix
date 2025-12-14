@@ -126,6 +126,28 @@ in
 
             # Additional settings for better vertical tabs experience
             "browser.tabs.firefox-view" = false;
+
+            # Remove ads and sponsored content from home page
+            "browser.newtabpage.activity-stream.showSponsored" = false;
+            "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+            "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
+            "browser.newtabpage.activity-stream.feeds.topsites" = false;
+            "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
+          };
+
+          search = {
+            default = "Kagi";
+            force = true;
+            engines = {
+              "Kagi" = {
+                urls = [{
+                  template = "https://kagi.com/search?q={searchTerms}";
+                }];
+                iconUpdateURL = "https://kagi.com/favicon.ico";
+                updateInterval = 24 * 60 * 60 * 1000;
+                definedAliases = [ "@k" ];
+              };
+            };
           };
         };
       };
