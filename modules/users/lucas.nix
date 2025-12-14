@@ -49,6 +49,16 @@ in
           cwd=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.cwd // "."')
           cost=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.cost.total_cost_usd // 0')
 
+          # Context window info
+          input_tokens=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.context_window.total_input_tokens // 0')
+          output_tokens=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.context_window.total_output_tokens // 0')
+          context_size=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.context_window.context_window_size // 200000')
+
+          # Calculate total tokens and format as K
+          total_tokens=$((input_tokens + output_tokens))
+          tokens_k=$(echo "scale=1; $total_tokens / 1000" | ${pkgs.bc}/bin/bc)
+          context_k=$(echo "scale=0; $context_size / 1000" | ${pkgs.bc}/bin/bc)
+
           # Format cost
           cost_fmt=$(printf "%.4f" "$cost")
 
@@ -75,7 +85,7 @@ in
           fi
 
           # Output status line with colors
-          echo -e "$git_info\033[36m$model\033[0m \033[32m\$$cost_fmt\033[0m"
+          echo -e "$git_info\033[36m$model\033[0m \033[35m''${tokens_k}K/''${context_k}K\033[0m \033[32m\$$cost_fmt\033[0m"
         '';
       };
 
