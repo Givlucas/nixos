@@ -6,6 +6,9 @@ let
   userCfg = config.userProfiles;
 in
 {
+
+  imports = [ inputs.impermanence.homeManagerModules.impermanence ];
+
   options.userProfiles.isa = {
     enable = lib.mkEnableOption "isa user account";
   };
