@@ -37,6 +37,56 @@ in
       home.file."Videos".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.core/Videos";
       home.file."Music".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.core/Music";
 
+      # Claude Code status line script
+      home.file.".claude/statusline.sh" = {
+        executable = true;
+        text = ''
+          #!/usr/bin/env bash
+
+          # Parse JSON input from Claude Code
+          input=$(cat)
+          model=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.model.display_name // "Claude"')
+          cwd=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.cwd // "."')
+          cost=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.cost.total_cost_usd // 0')
+
+          # Format cost
+          cost_fmt=$(printf "%.4f" "$cost")
+
+          # Get git status if in a git repo
+          git_info=""
+          if git -C "$cwd" rev-parse --git-dir >/dev/null 2>&1; then
+            branch=$(git -C "$cwd" branch --show-current 2>/dev/null)
+
+            # Check for uncommitted changes
+            if ! git -C "$cwd" diff --quiet 2>/dev/null || ! git -C "$cwd" diff --cached --quiet 2>/dev/null; then
+              dirty="*"
+            else
+              dirty=""
+            fi
+
+            # Check for untracked files
+            if [ -n "$(git -C "$cwd" ls-files --others --exclude-standard 2>/dev/null)" ]; then
+              untracked="+"
+            else
+              untracked=""
+            fi
+
+            git_info="\033[33m$branch$dirty$untracked\033[0m "
+          fi
+
+          # Output status line with colors
+          echo -e "$git_info\033[36m$model\033[0m \033[32m\$$cost_fmt\033[0m"
+        '';
+      };
+
+      # Claude Code settings
+      home.file.".claude/settings.json".text = builtins.toJSON {
+        statusLine = {
+          type = "command";
+          command = "~/.claude/statusline.sh";
+        };
+      };
+
       home.packages = with pkgs; [
         # Development
         claude-code
