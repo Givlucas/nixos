@@ -8,22 +8,6 @@ in
   options.desktop.gnome = {
     enable = lib.mkEnableOption "GNOME desktop environment";
 
-    extensions = lib.mkOption {
-      type = lib.types.listOf lib.types.package;
-      default = with pkgs.gnomeExtensions; [
-        compiz-alike-magic-lamp-effect
-        compiz-windows-effect
-        tiling-shell
-        dash-to-dock
-        blur-my-shell
-        hide-top-bar
-        rounded-window-corners-reborn
-        just-perfection
-        light-style
-      ];
-      description = "GNOME Shell extensions to install";
-    };
-
     edgeTiling = lib.mkOption {
       type = lib.types.bool;
       default = true;
@@ -46,8 +30,8 @@ in
         edge-tiling = true
       '';
 
-    # GNOME packages
-    environment.systemPackages = [ pkgs.gnome-tweaks ] ++ cfg.extensions;
+    # GNOME packages (gnome-tweaks moved to per-user packages)
+    environment.systemPackages = [ ];
 
     # Disable PulseAudio (use PipeWire via GNOME)
     hardware.pulseaudio.enable = false;
