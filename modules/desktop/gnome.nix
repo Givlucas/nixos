@@ -48,6 +48,9 @@ in
     hardware.pulseaudio.enable = false;
 
     # Enable automatic timezone detection
-    services.automatic-timezoned.enable = true;
+    services.automatic-timezoned.enable = cfg.automaticTimezone;
+
+    # Enable geoclue2 for location services (required for automatic timezone in GNOME)
+    services.geoclue2.enable = lib.mkIf cfg.automaticTimezone true;
   };
 }
