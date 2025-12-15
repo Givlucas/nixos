@@ -245,6 +245,7 @@ in
             transparency-mode = "DYNAMIC";
             background-opacity = 0.8;
             click-action = "MINIMIZE";
+            scroll-action = "switch-workspace";
           };
 
           # Blur My Shell configuration
