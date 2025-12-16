@@ -223,6 +223,7 @@ in
         directories = [
           "Documents"
           "Downloads"
+          ".steam"
           ".core"
           ".config"
           ".local"
