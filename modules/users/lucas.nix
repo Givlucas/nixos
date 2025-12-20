@@ -15,7 +15,7 @@ in
     # System user
     users.users.lucas = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "dialout" "plugdev" "docker" "libvirtd" ];
+      extraGroups = [ "wheel" "dialout" "plugdev" "docker" "libvirtd" "gamers" ];
       useDefaultShell = true;
     };
 

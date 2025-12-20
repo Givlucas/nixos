@@ -15,7 +15,7 @@ in
     # System user
     users.users.isa = {
       isNormalUser = true;
-      extraGroups = [ "dialout" "plugdev" ];
+      extraGroups = [ "dialout" "plugdev" "gamers" ];
       useDefaultShell = true;
     };
 

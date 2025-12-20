@@ -30,7 +30,14 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    
+    # Create gamers group for shared game storage
+    users.groups.gamers = {};
+
+    # Set ownership and permissions on XFS mount
+    systemd.tmpfiles.rules = [
+      "d ${cfg.xfsMountpoint} 0775 root gamers -"
+    ];
+
 
 
     disko.devices.disk.main = {
