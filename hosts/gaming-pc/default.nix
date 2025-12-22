@@ -29,8 +29,13 @@
   hardware.rtl-sdr.enable = true;
 
   # Printing
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.gutenprint pkgs.cnijfilter_4_00 ];
+  };
 
+  services.ipp-usb.enable = false;
+  
   # Shell aliases
   programs.bash.shellAliases = {
     sudo = "sudo -E";
