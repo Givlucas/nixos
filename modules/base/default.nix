@@ -42,6 +42,7 @@
   services.openssh.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
   networking.firewall.allowedUDPPorts = [ 22 ];
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
   system.stateVersion = lib.mkDefault "23.05";
 }
