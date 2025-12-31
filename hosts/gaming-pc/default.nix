@@ -35,7 +35,7 @@
   };
 
   services.ipp-usb.enable = false;
-  
+
   # Shell aliases
   programs.bash.shellAliases = {
     sudo = "sudo -E";

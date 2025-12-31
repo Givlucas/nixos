@@ -39,6 +39,7 @@
       ./modules/hardware/nvidia-hybrid.nix
       ./modules/desktop
       ./modules/users
+      ./modules/mullvad-vpn
       disko.nixosModules.disko
       home-manager.nixosModules.home-manager
       impermanence.nixosModules.impermanence

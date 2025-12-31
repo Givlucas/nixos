@@ -21,6 +21,9 @@
   userProfiles.persistHome = true;
   userProfiles.persistDir = "/persist";
 
+  # Mullvad VPN
+  services.mullvad.enable = true;
+
   # NVIDIA hybrid GPU (AMD iGPU + NVIDIA dGPU)
   hardware.nvidia-hybrid.enable = true;
   hardware.nvidia-hybrid.nvidiaBusId = "PCI:1:0:0";
