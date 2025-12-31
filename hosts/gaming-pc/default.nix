@@ -35,6 +35,9 @@
   };
 
   services.ipp-usb.enable = false;
+
+  # Mullvad VPN
+  services.mullvad.enable = true;
   
   # Shell aliases
   programs.bash.shellAliases = {
