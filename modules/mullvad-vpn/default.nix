@@ -4,9 +4,6 @@
 let
   cfg = config.services.mullvad;
 
-  # Read private key from file at build time
-  privateKey = lib.strings.trim (builtins.readFile cfg.privateKeyFile);
-
   # Helper to extract IPv4 and IPv6 addresses
   ipv4Addrs = lib.filter (a: lib.hasInfix "." a) cfg.addresses;
   ipv6Addrs = lib.filter (a: lib.hasInfix ":" a) cfg.addresses;
@@ -18,9 +15,9 @@ in
     enable = lib.mkEnableOption "Mullvad VPN via WireGuard";
 
     privateKeyFile = lib.mkOption {
-      type = lib.types.path;
-      default = ../.. + "/secrets/mullvad-private-key";
-      description = "Path to the WireGuard private key file (gitignored)";
+      type = lib.types.str;
+      default = "/etc/nixos-secrets/mullvad/private-key";
+      description = "Path to the WireGuard private key file (on system, not in nix store)";
     };
 
     endpoint = lib.mkOption {
@@ -64,7 +61,7 @@ in
     # Ensure NetworkManager is enabled
     networking.networkmanager.enable = true;
 
-    # Create the WireGuard VPN profile for NetworkManager
+    # Create the WireGuard VPN profile for NetworkManager (without private key)
     networking.networkmanager.ensureProfiles.profiles.mullvad-vpn = {
       connection = {
         id = "Mullvad VPN";
@@ -73,7 +70,7 @@ in
         autoconnect = lib.boolToString cfg.autoConnect;
       };
       wireguard = {
-        private-key = privateKey;
+        private-key-flags = "0";
       };
       "wireguard-peer.${cfg.publicKey}" = {
         endpoint = cfg.endpoint;
@@ -91,6 +88,49 @@ in
         address1 = lib.head ipv6Addrs;
         dns = lib.optionalString (ipv6Dns != []) (lib.concatStringsSep ";" ipv6Dns + ";");
       };
+    };
+
+    # Ensure secrets directory exists with correct permissions
+    systemd.tmpfiles.rules = [
+      "d /etc/nixos-secrets 0700 root root -"
+      "d /etc/nixos-secrets/mullvad 0700 root root -"
+    ];
+
+    # Service to inject private key into NetworkManager profile
+    systemd.services.mullvad-vpn-key-inject = {
+      description = "Inject Mullvad VPN private key into NetworkManager profile";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "NetworkManager.service" ];
+      requires = [ "NetworkManager.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      script = ''
+        # Wait for NetworkManager to be ready
+        ${pkgs.networkmanager}/bin/nmcli general status > /dev/null 2>&1 || exit 0
+
+        # Check if private key file exists
+        if [ ! -f "${cfg.privateKeyFile}" ]; then
+          echo "Private key file not found: ${cfg.privateKeyFile}"
+          echo "Please create the file with your Mullvad private key"
+          exit 0
+        fi
+
+        # Read private key
+        PRIVATE_KEY=$(cat "${cfg.privateKeyFile}" | tr -d '\n')
+
+        # Update the connection with the private key
+        ${pkgs.networkmanager}/bin/nmcli connection modify "Mullvad VPN" \
+          wireguard.private-key "$PRIVATE_KEY" || true
+      '';
+    };
+
+    # Persist secrets directory if impermanence is enabled
+    environment.persistence = lib.mkIf config.impermanence.enable {
+      ${config.impermanence.persistDir}.directories = [
+        { directory = "/etc/nixos-secrets/mullvad"; mode = "0700"; }
+      ];
     };
 
     # Firewall: Allow WireGuard UDP port
