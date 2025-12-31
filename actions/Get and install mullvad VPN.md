@@ -13,6 +13,7 @@ get and install mullvad vpn on you personal compute. Mullvad is high speed and d
 - must hide keys in a file not manager by nix
 - must have use documented
 - must not be user specific
+- default module options must all be filled
 
 # Statement of inputs
 - [[Move personal laptop to global config flake]]
