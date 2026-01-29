@@ -1,3 +1,6 @@
+This repository has been partially written with an LLM. The core implementation and structure was laid out by me personally. I have since used the LLM to make small additions at my direction.
+Please see my statement on LLM usage: https://github.com/Givlucas/AI-instructions/blob/main/Statement%20on%20LLM%20use.md
+
 # NixOS Configuration
 
 Personal multi-machine NixOS configuration built around composable modules and configuration inheritance.
