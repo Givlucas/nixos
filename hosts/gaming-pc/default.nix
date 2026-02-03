@@ -36,6 +36,12 @@
 
   services.ipp-usb.enable = false;
 
+  # Ollama with CUDA acceleration
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-cuda;
+  };
+
   # Shell aliases
   programs.bash.shellAliases = {
     sudo = "sudo -E";
