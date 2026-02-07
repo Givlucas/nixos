@@ -1,5 +1,5 @@
 #action #action #home-server 
-#published 
+#discovery
 
 
 # Notes
@@ -8,7 +8,7 @@
 - Installations built using the above command do not have a /etc/nixos/config file or flake.
 - It is possible to make configurations compose-able by creating a nixosConfiguration object who evaluates a function which takes a argument set containing a list of modules. This function will then call lib.nixos.System (???) and add the modules passed into the module set.
 - alienware requires broadcom had to temporarly make a custom nixos install config to use. Will clean up in later action. Testing disko options with TV flake - it worked
-- 
+- completely re-work this. your extension is not standard behavior and it's technical debt.
 
 # Questions
 - [x] What does updating look like? Do you just need to do a nixos-rebuild switch --flake ??
