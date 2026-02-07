@@ -21,7 +21,6 @@ in
 
     # Home-manager configuration
     home-manager.users.isa = lib.mkIf userCfg.enableHomeManager ({ config, pkgs, ... }: {
-      imports = [ inputs.impermanence.homeManagerModules.impermanence ];
       home.username = "isa";
       home.homeDirectory = "/home/isa";
 

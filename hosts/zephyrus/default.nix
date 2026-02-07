@@ -18,7 +18,6 @@
   # Impermanence
   impermanence.enable = true;
   impermanence.persistDir = "/persist";
-  userProfiles.persistHome = true;
   userProfiles.persistDir = "/persist";
 
   # Mullvad VPN

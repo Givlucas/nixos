@@ -22,7 +22,6 @@ in
     # Home-manager configuration
     home-manager.users.lucas = lib.mkIf userCfg.enableHomeManager ({ config, pkgs, ... }: {
       imports = [
-        inputs.impermanence.homeManagerModules.impermanence
         ../programs/claude.nix
       ];
 
