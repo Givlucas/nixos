@@ -3,7 +3,7 @@
 
 # notes
 - Can configured #gnome #plugins using #dconf.settings
-- AI did a bad job if laying things out. be more specific on layouts / modules this time
+- AI did a bad job of laying things out. be more specific on layouts / modules this time
 
 # statement of inputs 
 - [[Create basic nix configuration flake]]
