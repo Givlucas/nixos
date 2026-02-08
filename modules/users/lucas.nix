@@ -102,6 +102,12 @@ in
         gnomeExtensions.light-style
       ];
 
+      programs.git = {
+        enable = true;
+        userName = "Lucas";
+        userEmail = "lucas.givens@tutamail.com";  # Replace with your email
+      };
+
       programs.helix = {
         enable = true;
         settings = {
@@ -220,7 +226,7 @@ in
     });
 
     # Persist lucas home in impermanence
-    environment.persistence = lib.mkIf (config.impermanence.enable or false) {
+    environment.persistence = lib.mkIf config.impermanence.enable {
       "${userCfg.persistDir}".users.lucas = {
         directories = [
           "Documents"
