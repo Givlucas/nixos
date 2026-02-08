@@ -38,6 +38,9 @@ in
       ${lib.optionalString cfg.automaticTimezone ''
         [org.gnome.desktop.datetime]
         automatic-timezone = true
+
+        [org.gnome.system]
+        location = true
       ''}
     '';
 
@@ -51,6 +54,13 @@ in
     services.automatic-timezoned.enable = cfg.automaticTimezone;
 
     # Enable geoclue2 for location services (required for automatic timezone in GNOME)
-    services.geoclue2.enable = lib.mkIf cfg.automaticTimezone true;
+    services.geoclue2 = lib.mkIf cfg.automaticTimezone {
+      enable = true;
+      appConfig.automatic-timezoned = {
+        isAllowed = true;
+        isSystem = true;
+        users = [ "" ];  # Allow all users
+      };
+    };
   };
 }

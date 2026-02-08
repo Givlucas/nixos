@@ -22,7 +22,7 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "dialout" "plugdev" ];
     useDefaultShell = true;
-    initialPassword = "";
+    hashedPasswordFile = "/persist/secrets/admin-password";
   };
 
   # Base system packages

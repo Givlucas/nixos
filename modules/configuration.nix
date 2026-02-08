@@ -23,7 +23,7 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "dialout" "plugdev"]; # Enable ‘sudo’ for the user.
     useDefaultShell = true;
-    initialPassword = "";
+    hashedPasswordFile = "/persist/secrets/admin-password";
     packages = [
     ];
   };
