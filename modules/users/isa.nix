@@ -53,7 +53,7 @@ in
     });
 
     # Persist isa home in impermanence
-    environment.persistence = lib.mkIf (config.impermanence.enable or false) {
+    environment.persistence = lib.mkIf config.impermanence.enable {
       "${userCfg.persistDir}".users.isa = {
         directories = [
           "Documents"
@@ -63,6 +63,10 @@ in
           "Videos"
           ".config"
           ".local"
+          ".steam"
+          ".ssh"
+          ".gnupg"
+          ".mozilla"  # Firefox data
         ];
       };
     };
