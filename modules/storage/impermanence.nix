@@ -19,7 +19,7 @@ in
     # Wipe root on boot using a btrfs snapshot
     boot.initrd.postDeviceCommands = lib.mkAfter ''
       mkdir -p /mnt
-      mount -o subvol=/ /dev/disk/by-partlabel/btrfs /mnt
+      mount -o subvol=/ /dev/disk/by-partlabel/disk-main-btrfs /mnt
 
       if [[ -e /mnt/@root ]]; then
         mkdir -p /mnt/@snapshots
@@ -36,14 +36,18 @@ in
       hideMounts = true;
       directories = [
         "/etc/nixos"
+        "/etc/NetworkManager/system-connections"
         "/var/log"
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"
+        "/var/lib/NetworkManager"
+        "/var/lib/geoclue"  # Location cache for automatic timezone
         { directory = "/var/lib/docker"; mode = "0710"; }
         { directory = "/var/lib/libvirt"; mode = "0755"; }
       ];
       files = [
         "/etc/machine-id"
+        "/etc/localtime"  # Timezone set by automatic-timezoned
         "/etc/ssh/ssh_host_ed25519_key"
         "/etc/ssh/ssh_host_ed25519_key.pub"
         "/etc/ssh/ssh_host_rsa_key"

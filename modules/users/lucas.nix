@@ -12,11 +12,14 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    users.mutableUsers = false;
+
     # System user
     users.users.lucas = {
       isNormalUser = true;
       extraGroups = [ "wheel" "dialout" "plugdev" "docker" "libvirtd" "gamers" ];
       useDefaultShell = true;
+      hashedPasswordFile = "/persist/secrets/lucas-password";
     };
 
     # Home-manager configuration
@@ -228,6 +231,12 @@ in
           ".local"
           ".ssh"
           ".gnupg"
+          ".mozilla"  # Firefox data
+          ".claude"   # Claude Code data
+        ];
+        files = [
+          ".claude.json"  # Claude Code auth token
+          ".bash_history"
         ];
       };
     };
