@@ -2,7 +2,7 @@ This repository has been partially written with an LLM. The core implementation 
 Please see my statement on LLM usage: https://github.com/Givlucas/AI-instructions/blob/main/Statement%20on%20LLM%20use.md
 
 # Status - In use
-- re-structure imminent. Im not super happy with how some of my configurations are composed. Namely the weird configuration extension system I made. not sure if that's really useful anymore after learning more about modules 
+- re-structure imminent. I origannly developed the base layout of this project myself, then attempted to use a LLM to transfer in the configuration for my personal laptop. However, I really don't like how it laid things out. Going to manually re-write for quality
 
 # NixOS Configuration
 
