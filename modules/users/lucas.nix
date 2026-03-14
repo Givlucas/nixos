@@ -71,6 +71,7 @@ in
         discord
         tor-browser
         deluge
+        tutanota-desktop
 
         # Gaming
         prismlauncher
