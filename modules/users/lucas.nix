@@ -64,7 +64,9 @@ in
         calibre
         libreoffice
         xournalpp
-        anki-bin
+        (pkgs.anki.withAddons [
+          pkgs.ankiAddons.anki-connect
+        ])
 
         # Communication & Web
         google-chrome
