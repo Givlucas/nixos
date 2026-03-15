@@ -2,7 +2,7 @@
   description = "Multi-machine NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     disko = {
@@ -11,16 +11,22 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     impermanence.url = "github:nix-community/impermanence";
 
     nur.url = "github:nix-community/NUR";
+
+    personal-utils-mono = {
+      url = "github:Givlucas/personal-utils-mono";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, disko, home-manager, impermanence, nur, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, disko, home-manager, impermanence, nur, personal-utils-mono, ... }@inputs:
   let
     system = "x86_64-linux";
 
@@ -100,12 +106,12 @@
       ];
 
       # Abstract gaming PC (unstable, no hardware specifics)
-      gaming-pc = mkUnstableConfig [] (desktopConfigs ++ [
+      gaming-pc = mkConfig [] (desktopConfigs ++ [
         ./hosts/gaming-pc
       ]);
 
       # Zephyrus laptop (extends gaming-pc with hardware specifics)
-      zephyrus = extendUnstableConfig gaming-pc [
+      zephyrus = extendConfig gaming-pc [
         ./hosts/zephyrus
       ];
     };

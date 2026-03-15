@@ -4,6 +4,7 @@
 let
   cfg = config.userProfiles.lucas;
   userCfg = config.userProfiles;
+  system = pkgs.stdenv.hostPlatform.system;
 in
 {
 
@@ -51,7 +52,7 @@ in
         kotlin-language-server
         nil
         nixos-anywhere
-
+        
         # Design & Media
         inkscape
         gimp
@@ -103,12 +104,12 @@ in
         gnomeExtensions.rounded-window-corners-reborn
         gnomeExtensions.just-perfection
         gnomeExtensions.light-style
-      ];
+      ] ++ [ inputs.personal-utils-mono.packages.${system}.gitroot ];
 
       programs.git = {
         enable = true;
-        userName = "Lucas";
-        userEmail = "lucas.givens@tutamail.com";  # Replace with your email
+        settings.user.name = "Lucas";
+        settings.user.email = "lucas.givens@tutamail.com";
       };
 
       programs.helix = {
@@ -126,7 +127,7 @@ in
       programs.firefox = {
         enable = true;
         profiles.lucas = {
-          extensions.packages = with inputs.nur.legacyPackages.${pkgs.stdenv.hostPlatform.system}.repos.rycee.firefox-addons; [
+          extensions.packages = with inputs.nur.legacyPackages.${system}.repos.rycee.firefox-addons; [
             raindropio
           ];
           settings = {
