@@ -17,6 +17,7 @@ in
       isNormalUser = true;
       extraGroups = [ "dialout" "plugdev" "gamers" ];
       useDefaultShell = true;
+      hashedPasswordFile = "/persist/secrets/isa-password";
     };
 
     # Home-manager configuration
