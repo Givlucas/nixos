@@ -1,8 +1,10 @@
 # Base system configuration module
 # Common settings shared across all hosts
 
-{ pkgs, lib, ... }:
-
+{ pkgs, lib, inputs, ... }:
+let
+  system = pkgs.stdenv.hostPlatform.system;
+in
 {
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -36,6 +38,9 @@
     ntfs3g
     fastfetch
     openssl
+  ] ++ [
+    inputs.personal-utils-mono.packages.${system}.passwd
+    inputs.personal-utils-mono.packages.${system}.gitroot
   ];
 
   # SSH

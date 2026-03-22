@@ -104,9 +104,6 @@ in
         gnomeExtensions.rounded-window-corners-reborn
         gnomeExtensions.just-perfection
         gnomeExtensions.light-style
-      ] ++ [
-        inputs.personal-utils-mono.packages.${system}.gitroot
-        inputs.personal-utils-mono.${system}.pswd
       ];
 
       programs.git = {
