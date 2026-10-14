@@ -1,7 +1,7 @@
 This repository has been partially written with an LLM. The core implementation and structure was laid out by me personally. I have since used the LLM to make small additions at my direction.
 
 # Status - In use
-- re-structure imminent. I origannly developed the base layout of this project myself, then attempted to use a LLM to transfer in the configuration for my personal laptop. However, I really don't like how it laid things out. Going to manually re-write for quality
+- re-structure imminent. I originally developed the base layout of this project myself, then attempted to use a LLM to transfer in the configuration for my personal laptop. However, I really don't like how it laid things out. Going to manually re-write for quality
 
 # NixOS Configuration
 
