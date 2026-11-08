@@ -1,8 +1,7 @@
 { inputs, config, ... } :
-let system = config.nixpkgs.hostPlatform.system; in
 {
-  
   flake.nixosModules.system-utils = ({ pkgs, ... } :
+    let system = pkgs.stdenv.hostPlatform.system; in
   {
     environment.systemPackages = with pkgs; [
       tmux
