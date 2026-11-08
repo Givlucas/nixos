@@ -1,4 +1,4 @@
-{ inputs, config, ... } :
+{ inputs, ... } :
 {
   flake.nixosModules.system-utils = ({ pkgs, ... } :
     let system = pkgs.stdenv.hostPlatform.system; in
