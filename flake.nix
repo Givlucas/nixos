@@ -1,119 +1,35 @@
 {
-  description = "Multi-machine NixOS configuration";
+  description = "Description for the project";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    impermanence.url = "github:nix-community/impermanence";
-
-    nur.url = "github:nix-community/NUR";
-
-    personal-utils-mono = {
-      url = "github:Givlucas/personal-utils-mono";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, disko, home-manager, impermanence, nur, personal-utils-mono, ... }@inputs:
-  let
-    system = "x86_64-linux";
+  outputs = inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        # To import an internal flake module: ./other.nix
+        # To import an external flake module:
+        #   1. Add foo to inputs
+        #   2. Add foo as a parameter to the outputs function
+        #   3. Add here: foo.flakeModule
 
-    # Base configurations for stable hosts (tv, base)
-    baseConfigs = [
-      ./modules/base
-      ./modules/hardware-configuration.nix
-      ./modules/base-disk-config.nix
-      disko.nixosModules.disko
-    ];
+      ];
+      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+      perSystem = { config, self', inputs', pkgs, system, ... }: {
+        # Per-system attributes can be defined here. The self' and inputs'
+        # module parameters provide easy access to attributes of the same
+        # system.
 
-    # Base configurations for unstable desktop hosts (gaming-pc, zephyrus)
-    desktopConfigs = [
-      ./modules/base
-      ./modules/storage
-      ./modules/hardware/nvidia-hybrid.nix
-      ./modules/desktop
-      ./modules/users
-      ./modules/mullvad-vpn
-      disko.nixosModules.disko
-      home-manager.nixosModules.home-manager
-      impermanence.nixosModules.impermanence
-    ];
-
-    # Create config with stable nixpkgs
-    mkConfig = baseModules: extraModules: nixpkgs.lib.nixosSystem {
-      inherit system;
-      specialArgs = { inherit inputs; };
-      modules = baseModules ++ extraModules;
-    };
-
-    # Create config with unstable nixpkgs
-    mkUnstableConfig = baseModules: extraModules: nixpkgs-unstable.lib.nixosSystem {
-      inherit system;
-      specialArgs = { inherit inputs; };
-      modules = baseModules ++ extraModules;
-    };
-
-    # Function that extends an existing configuration (stable)
-    extendConfig = baseConfig: extraModules: mkConfig
-      baseConfig._module.args.modules
-      extraModules;
-
-    # Function that extends an existing configuration (unstable)
-    extendUnstableConfig = baseConfig: extraModules: mkUnstableConfig
-      baseConfig._module.args.modules
-      extraModules;
-  in
-  {
-    # Live installer ISO
-    packages.${system}.live = self.nixosConfigurations.live.config.system.build.isoImage;
-
-    nixosConfigurations = rec {
-      # Live installer
-      live = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          (nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
-          ({ pkgs, config, ... }: {
-            boot.initrd.kernelModules = [ "wl" ];
-            boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.config.permittedInsecurePackages = [
-              "broadcom-sta-6.30.223.271-57-6.12.44"
-            ];
-            networking.networkmanager.enable = true;
-          })
-        ];
+        # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
+        packages.default = pkgs.hello;
       };
+      flake = {
+        # The usual flake attributes can be defined here, including system-
+        # agnostic ones like nixosModule and system-enumerating ones, although
+        # those are more easily expressed in perSystem.
 
-      # Base configuration
-      base = mkConfig [] baseConfigs;
-
-      # TV configuration (extends base)
-      tv = extendConfig base [
-        ./hosts/tv
-      ];
-
-      # Abstract gaming PC (unstable, no hardware specifics)
-      gaming-pc = mkConfig [] (desktopConfigs ++ [
-        ./hosts/gaming-pc
-      ]);
-
-      # Zephyrus laptop (extends gaming-pc with hardware specifics)
-      zephyrus = extendConfig gaming-pc [
-        ./hosts/zephyrus
-      ];
+      };
     };
-  };
 }
