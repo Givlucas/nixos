@@ -1,8 +1,9 @@
-{inputs, self', ...}: {
+{inputs, self, ...}: {
   flake.nixosConfigurations.wsl = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     modules = [
       inputs.nixos-wsl.nixosModules.default
+      self.nixosModules.system-utils
       {
         system.stateVersion = "26.05";
         wsl.enable = true;
