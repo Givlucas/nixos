@@ -9,6 +9,7 @@
       gparted
       pciutils
       openssl
+      tree
     ] ++ [
       inputs.personal-utils-mono.packages.${system}.gitroot
     ];
