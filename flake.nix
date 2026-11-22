@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:denful/import-tree";
 
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
@@ -16,11 +17,7 @@
     };
   };
 
-  outputs = inputs@{ flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        ./hosts/wsl.nix
-        ./modules/system-utils.nix
-      ];
-    };
+  outputs = inputs@{ flake-parts, import-tree, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; }
+      (import-tree ./modules); 
 }
