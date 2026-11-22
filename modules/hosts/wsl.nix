@@ -18,9 +18,14 @@
           home.username = "nixos";
           home.homeDirectory = "/home/nixos";
           home.stateVersion = "26.05"; # Did you read the comment?
-        });
 
-        programs.git.enable = true;
+          programs.git = {
+            enable = true;
+            settings.user.name = "Lucas";
+            settings.user.email = "lucas.givens@tutamail.com";
+          };
+          
+        });
 
         environment.systemPackages = with pkgs; [
           helix
