@@ -10,7 +10,7 @@
       pciutils
       openssl
     ] ++ [
-      inputs.personal-utils-mono.packages.${system}.pswd
+      inputs.personal-utils-mono.packages.${system}.gitroot
     ];
   });
 }
