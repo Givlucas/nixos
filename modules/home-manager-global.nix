@@ -1,6 +1,6 @@
 { inputs, ... } :
 {
-  flake.nixosModules.home-manager = ({ config, lib, pkgs, inputs, ... }:
+  flake.nixosModules.home-manager-global = ({ config, lib, pkgs, inputs, ... }:
     let
       cfg = config.userProfiles;
     in
