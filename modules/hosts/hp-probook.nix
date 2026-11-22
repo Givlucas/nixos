@@ -3,6 +3,7 @@
     system = "x86_64-linux";
     modules = [
       self.nixosModules.system-utils
+      self.nixosModules.nix-commands
       ({config, lib, pkgs, ...} : {
 
         nix.settings.experimental-features = [ "nix-command" "flakes" ];
