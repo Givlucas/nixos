@@ -4,7 +4,7 @@
       programs.helix = {
         enable = true;
         settings = {
-          theme = "base16_default";
+          theme = "meliora";
           editor = {
             rulers = [ 80 120 ];
             bufferline = "multiple";
