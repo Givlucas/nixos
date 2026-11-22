@@ -16,7 +16,7 @@
        
         home-manager.users.nixos = ({ config, pkgs, ... }: {
           imports = [
-            self.homeModles.helix
+            self.homeModules.helix
           ];
           home.username = "nixos";
           home.homeDirectory = "/home/nixos";
