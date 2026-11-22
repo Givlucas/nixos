@@ -5,13 +5,20 @@
       inputs.nixos-wsl.nixosModules.default
       self.nixosModules.system-utils
       self.nixosModules.nix-commands
-      self.nixosModules.home-manager-global
       {
         system.stateVersion = "26.05";
         wsl.enable = true;
         wsl.defaultUser = "nixos";
       }
       ({config, lib, pkgs, ...} : {
+
+        imports = [ self.nixosModules.home-manager-global ];
+       
+        home-manager.users.nixos = ({ config, pkgs, ... }: {
+          home.username = "nixos";
+          home.homeDirectory = "/home/nixos";
+          home.stateVersion = "26.05"; # Did you read the comment?
+        });
 
         programs.git.enable = true;
 
