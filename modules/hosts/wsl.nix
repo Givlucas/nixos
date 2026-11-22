@@ -24,6 +24,17 @@
             settings.user.name = "Lucas";
             settings.user.email = "lucas.givens@tutamail.com";
           };
+
+          programs.ssh = {
+            enable = true;
+            settings = {
+              "github.com" = {
+                HostName = "github.com";
+                User = "git";
+                IdentityFile = "~/.ssh/github";
+              };
+            };
+          };
           
         });
 
@@ -32,7 +43,6 @@
           tmux
         ];
 
-        programs.ssh.startAgent = true;
 
         # This value determines the NixOS release from which the default
         # settings for stateful data, like file locations and database versions
