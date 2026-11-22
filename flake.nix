@@ -2,7 +2,7 @@
   description = "Description for the project";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-26.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:denful/import-tree";
 
@@ -15,6 +15,12 @@
       url = "github:Givlucas/personal-utils-mono";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    home-manager = {
+      url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    
   };
 
   outputs = inputs@{ flake-parts, import-tree, ... }:
