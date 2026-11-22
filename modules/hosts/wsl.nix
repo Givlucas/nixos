@@ -17,27 +17,15 @@
         home-manager.users.nixos = ({ config, pkgs, ... }: {
           imports = [
             self.homeModules.helix
+            self.homeModules.git
           ];
           home.username = "nixos";
           home.homeDirectory = "/home/nixos";
           home.stateVersion = "26.05"; # Did you read the comment?
 
-          programs.git = {
-            enable = true;
-            settings.user.name = "Lucas";
-            settings.user.email = "lucas.givens@tutamail.com";
-          };
-
-          programs.ssh = {
-            enable = true;
-            settings = {
-              "github.com" = {
-                HostName = "github.com";
-                User = "git";
-                IdentityFile = "~/.ssh/github";
-              };
-            };
-          };
+          git.user.name = "Lucas";
+          git.user.email = "lucas.givens@tutamail.com";
+          git.identityFile = "~/.ssh/github";
           
         });
 
