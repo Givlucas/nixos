@@ -4,6 +4,7 @@
     modules = [
       inputs.nixos-wsl.nixosModules.default
       self.nixosModules.system-utils
+      self.nixosModules.nix-commands
       {
         system.stateVersion = "26.05";
         wsl.enable = true;
@@ -11,7 +12,6 @@
       }
       ({config, lib, pkgs, ...} : {
 
-        nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
         programs.git.enable = true;
 
