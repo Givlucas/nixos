@@ -9,8 +9,9 @@
           self.nixosModules.home-manager-global
         ];
 
-        # Should probably make a USER module? Bundle home manager with basic user creation? this also formalizes your password storage scheme
+        # TODO: Should probably make a USER module? Bundle home manager with basic user creation? this also formalizes your password storage scheme
         # This will be useful to those ends: https://ryantm.github.io/nixpkgs/functions/library/attrsets/#function-library-lib.attrsets.getAttrs
+        # ../accounts.nix
 
         # 1)
         users.users.lucas = {
