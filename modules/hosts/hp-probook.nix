@@ -5,15 +5,22 @@
       self.nixosModules.system-utils
       self.nixosModules.nix-commands
       ({config, lib, pkgs, ...} : {
-        imports = [ self.nixosModules.home-manager-global ];
+        imports = [
+          self.nixosModules.home-manager-global
+        ];
 
+        # Should probably make a USER module? Bundle home manager with basic user creation? this also formalizes your password storage scheme
+        # This will be useful to those ends: https://ryantm.github.io/nixpkgs/functions/library/attrsets/#function-library-lib.attrsets.getAttrs
+
+        # 1)
         users.users.lucas = {
           isNormalUser = true;
           extraGroups = [ "wheel" "dialout" "plugdev" "docker" "libvirtd" ];
           useDefaultShell = true;
           hashedPasswordFile = "/persist/secrets/lucas-password";
         };
-       
+
+        # 2)
         home-manager.users.lucas = ({ config, pkgs, ... }: {
           imports = [
             self.homeModules.helix
