@@ -1,4 +1,4 @@
-# This still need to be impermentant
+# TODO: This still needs to set impermance up now that we have our btrfs set up
 
 {inputs, ..}:
 {
